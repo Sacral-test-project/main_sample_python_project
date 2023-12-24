@@ -48,7 +48,14 @@ def edit(position: int, name: str = None, contact_number: str = None):
 def remove(position: int):
     typer.echo(f"Removing {position}")
     delete(position)
+    update_positions()
     show()
+
+
+def update_positions():
+    contacts = read()
+    for idx, contact in enumerate(contacts, start=1):
+        update(idx, contact.name, contact.contact_number)
 
 
 if __name__ == "__main__":
