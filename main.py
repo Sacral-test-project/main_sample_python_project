@@ -9,9 +9,9 @@ console = Console()
 
 
 @app.command(short_help='adds a contact')
-def add(name: str, contact_number: str):
-    typer.echo(f"Adding {name}, {contact_number}")
-    contact = Contact(name, contact_number)
+def add(name: str, contact_number: str, email: str):
+    typer.echo(f"Adding {name}, {contact_number}, {email}")
+    contact = Contact(name, contact_number, email)
     create(contact)
     show()
 
@@ -30,17 +30,18 @@ def show():
         table.add_column("#", style="dim", width=3, justify="center")
         table.add_column("Name", min_width=20, justify="center")
         table.add_column("Contact Number", min_width=12, justify="center")
+        table.add_column("Email", min_width=20, justify="center")
 
         for idx, contact in enumerate(contacts, start=1):
             table.add_row(str(
-                idx), f'[cyan]{contact.name}[/cyan]', f'[green]{contact.contact_number}[/green]')
+                idx), f'[cyan]{contact.name}[/cyan]', f'[green]{contact.contact_number}[/green]', f'[yellow]{contact.email}[/yellow]')
         console.print(table)
 
 
 @app.command(short_help='edits a contact')
-def edit(position: int, name: str = None, contact_number: str = None):
+def edit(position: int, name: str = None, contact_number: str = None, email: str = None):
     typer.echo(f"Editing {position}")
-    update(position, name, contact_number)
+    update(position, name, contact_number, email)
     show()
 
 
@@ -55,7 +56,7 @@ def remove(position: int):
 def update_positions():
     contacts = read()
     for idx, contact in enumerate(contacts, start=1):
-        update(idx, contact.name, contact.contact_number)
+        update(idx, contact.name, contact.contact_number, contact.email)
 
 
 if __name__ == "__main__":
