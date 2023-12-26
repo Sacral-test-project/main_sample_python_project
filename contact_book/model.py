@@ -12,4 +12,4 @@ class Contact:
         self.address = address
 
     def __repr__(self) -> str:
-        return f"({self.name}, {self.contact_number}, {self.position}, {self.date_created}, {self.date_updated})"
+        return f"({self.name}, {self.contact_number}, {self.position}, {self.date_created}, {self.date_updated}, {self.email}, {self.address})"
