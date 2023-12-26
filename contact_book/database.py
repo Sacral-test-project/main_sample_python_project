@@ -9,6 +9,7 @@ def create(contact: Contact) -> None:
     new_contact = {
         'name': contact.name,
         'contact_number': contact.contact_number,
+        'email': contact.email,
         'position': contact.position,
         'date_created': contact.date_created,
         'date_updated': contact.date_updated
@@ -20,21 +21,32 @@ def read() -> List[Contact]:
     results = db.all()
     contacts = []
     for result in results:
-        new_contact = Contact(result['name'], result['contact_number'], result['position'],
+        new_contact = Contact(result['name'], result['contact_number'], result['email'], result['position'],
                               result['date_created'], result['date_updated'])
         contacts.append(new_contact)
     return contacts
 
 
-def update(position: int, name: str, contact_number: str) -> None:
-    if name is not None and contact_number is not None:
+def update(position: int, name: str, contact_number: str, email: str) -> None:
+    if name is not None and contact_number is not None and email is not None:
+        db.update({'name': name, 'contact_number': contact_number, 'email': email},
+                  ContactQuery.position == position)
+    elif name is not None and contact_number is not None:
         db.update({'name': name, 'contact_number': contact_number},
+                  ContactQuery.position == position)
+    elif name is not None and email is not None:
+        db.update({'name': name, 'email': email},
+                  ContactQuery.position == position)
+    elif contact_number is not None and email is not None:
+        db.update({'contact_number': contact_number, 'email': email},
                   ContactQuery.position == position)
     elif name is not None:
         db.update({'name': name}, ContactQuery.position == position)
     elif contact_number is not None:
         db.update({'contact_number': contact_number},
                   ContactQuery.position == position)
+    elif email is not None:
+        db.update({'email': email}, ContactQuery.position == position)
 
 
 def delete(position: int) -> None:
@@ -56,15 +68,15 @@ def remove_contact(position: int) -> None:
     print("Updated contact book:")
     contacts = read()
     for contact in contacts:
-        print(f"Name: {contact.name}, Contact Number: {contact.contact_number}, Position: {contact.position}")
-        
+        print(f"Name: {contact.name}, Contact Number: {contact.contact_number}, Email: {contact.email}, Position: {contact.position}")
+
 
 # Test the modified code
 if __name__ == "__main__":
     # Create some sample contacts
-    contact1 = Contact("John Doe", "1234567890", 1, datetime.datetime.now(), datetime.datetime.now())
-    contact2 = Contact("Jane Smith", "9876543210", 2, datetime.datetime.now(), datetime.datetime.now())
-    contact3 = Contact("Bob Johnson", "5555555555", 3, datetime.datetime.now(), datetime.datetime.now())
+    contact1 = Contact("John Doe", "1234567890", "john.doe@example.com", 1, datetime.datetime.now(), datetime.datetime.now())
+    contact2 = Contact("Jane Smith", "9876543210", "jane.smith@example.com", 2, datetime.datetime.now(), datetime.datetime.now())
+    contact3 = Contact("Bob Johnson", "5555555555", "bob.johnson@example.com", 3, datetime.datetime.now(), datetime.datetime.now())
 
     # Add contacts to the contact book
     create(contact1)
@@ -75,7 +87,7 @@ if __name__ == "__main__":
     print("Initial contact book:")
     contacts = read()
     for contact in contacts:
-        print(f"Name: {contact.name}, Contact Number: {contact.contact_number}, Position: {contact.position}")
+        print(f"Name: {contact.name}, Contact Number: {contact.contact_number}, Email: {contact.email}, Position: {contact.position}")
 
     # Remove contact at position 2
     remove_contact(2)
