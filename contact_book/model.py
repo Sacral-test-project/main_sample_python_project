@@ -2,7 +2,7 @@ import datetime
 
 
 class Contact:
-    def __init__(self, name, contact_number, position=None, date_created=None, date_updated=None, email=None, address=None, new_field=None):
+    def __init__(self, name, contact_number, position=None, date_created=None, date_updated=None, email=None, address=None, new_field=None, street_name=None):
         self.name = name
         self.contact_number = contact_number
         self.position = position
@@ -11,6 +11,7 @@ class Contact:
         self.email = email
         self.address = address
         self.new_field = new_field
+        self.street_name = street_name
 
     def __repr__(self) -> str:
-        return f"({self.name}, {self.contact_number}, {self.position}, {self.date_created}, {self.date_updated}, {self.email}, {self.address}, {self.new_field})"
+        return f"({self.name}, {self.contact_number}, {self.position}, {self.date_created}, {self.date_updated}, {self.email}, {self.address}, {self.new_field}, {self.street_name})"
