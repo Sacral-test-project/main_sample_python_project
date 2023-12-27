@@ -2,7 +2,7 @@ import datetime
 
 
 class Contact:
-    def __init__(self, name, contact_number, position=None, date_created=None, date_updated=None, email=None, address=None):
+    def __init__(self, name, contact_number, position=None, date_created=None, date_updated=None, email=None, address=None, new_field=None):
         self.name = name
         self.contact_number = contact_number
         self.position = position
@@ -10,6 +10,7 @@ class Contact:
         self.date_updated = date_updated if date_updated is not None else datetime.datetime.now().isoformat()
         self.email = email
         self.address = address
+        self.new_field = new_field
 
     def __repr__(self) -> str:
-        return f"({self.name}, {self.contact_number}, {self.position}, {self.date_created}, {self.date_updated}, {self.email}, {self.address})"
+        return f"({self.name}, {self.contact_number}, {self.position}, {self.date_created}, {self.date_updated}, {self.email}, {self.address}, {self.new_field})"
